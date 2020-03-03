@@ -11,7 +11,10 @@ export default async () => {
     await page.goto(generateItemPageEndpoint(itemId));
     await page.waitForSelector('.itemModalHeader .item-price');
     const priceText = await page.$eval('.itemModalHeader .item-price', (a) => a.innerText);
+    const priceWithUnit = priceText.split('$')[1];
 
-    console.log(priceText);
+    if (!priceText.includes('/')) console.error(`Unable to parse this product: ${itemId}`);
+
+    console.log(priceWithUnit);
   }
 };
