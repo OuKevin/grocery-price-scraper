@@ -12,7 +12,8 @@ const main = async () => {
     config.page = page;
 
     await login();
-    await scrapePrices();
+    const itemPrices = await scrapePrices();
+    console.log(itemPrices);
   } catch (error) {
     console.error(error);
   }
