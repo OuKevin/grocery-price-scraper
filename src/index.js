@@ -2,6 +2,7 @@ import puppeteer from 'puppeteer';
 import config from './utils/config';
 import login from './login';
 import scrapePrices from './scrapePrices';
+import savePrices from './savePrices';
 
 require('dotenv').config();
 
@@ -13,7 +14,7 @@ const main = async () => {
 
     await login();
     const itemPrices = await scrapePrices();
-    console.log(itemPrices);
+    await savePrices(itemPrices);
   } catch (error) {
     console.error(error);
   }
