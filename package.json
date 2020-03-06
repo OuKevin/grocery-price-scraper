@@ -4,8 +4,12 @@
   "description": "scrapes grocery site for latest produce prices",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "babel -d ./dist ./src",
+    "dev": "nodemon --exec babel-node src/index.js",
+    "prebuild": "rm -rf dist/*",
+    "prestart": "npm run build",
+    "publish:local": "NODE_ENV=development babel-node './publish.js'",
+    "start": "NODE_ENV=production node ./dist/index.js"
   },
   "repository": {
     "type": "git",
@@ -23,9 +27,12 @@
     "puppeteer": "^2.1.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.8.4",
     "@babel/core": "^7.8.6",
     "@babel/node": "^7.8.4",
+    "@babel/plugin-transform-runtime": "^7.8.3",
     "@babel/preset-env": "^7.8.6",
+    "@babel/runtime": "^7.8.7",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
