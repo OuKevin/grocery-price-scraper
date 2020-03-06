@@ -1,14 +1,21 @@
-import puppeteer from 'puppeteer';
+/* eslint-disable global-require */
+import chromium from 'chrome-aws-lambda';
 import config from './utils/config';
 import login from './login';
 import scrapePrices from './scrapePrices';
 import savePrices from './savePrices';
 
-require('dotenv').config();
+const { NODE_ENV } = process.env;
+if (NODE_ENV === 'development') { require('dotenv').config(); }
 
 const main = async () => {
   try {
-    const browser = await puppeteer.launch({ headless: false, slowMo: 100 });
+    const browser = await chromium.puppeteer.launch({
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath,
+      headless: chromium.headless,
+    });
     const [page] = await browser.pages();
     config.page = page;
 
@@ -20,4 +27,6 @@ const main = async () => {
   }
 };
 
-main();
+if (NODE_ENV === 'development') { main(); }
+
+export default main;
