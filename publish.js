@@ -7,6 +7,7 @@ if (process.env.NODE_ENV === 'development') require('dotenv').config();
 
 const { AWS_REGION } = process.env;
 
+// TODO: fix script
 (async () => {
   const lambda = new AWS.Lambda({
     apiVersion: '2015-03-31',

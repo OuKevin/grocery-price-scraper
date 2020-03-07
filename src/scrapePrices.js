@@ -21,7 +21,9 @@ export default async () => {
       console.error(`Unable to parse this product: ${id}`);
     } else {
       const [price, unit] = priceWithUnit.split('/');
-      items.push({ name, price, unit });
+      items.push({
+        id, name, price, unit,
+      });
     }
   }
 

@@ -9,7 +9,7 @@
     "dependencies": "cp ./package.json ./dist/package.json && npm --only=production --prefix ./dist install ./dist",
     "prebuild": "rm -rf dist/* && rm -rf dist.zip",
     "publish:local": "NODE_ENV=development babel-node './publish.js'",
-    "compress": "zip -r dist.zip dist",
+    "compress": "cd dist && zip -r ../dist.zip *",
     "start": "NODE_ENV=production node ./dist/index.js"
   },
   "repository": {

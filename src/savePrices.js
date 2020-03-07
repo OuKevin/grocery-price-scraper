@@ -5,13 +5,11 @@ export default async (items) => {
   AWS.config.update({ region: 'us-east-2' });
   const documentClient = new AWS.DynamoDB.DocumentClient();
   const timestamp = String(new Date().toISOString());
-  const formattedItems = items.map(({ name, price, unit }) => ({
+  const formattedItems = items.map((item) => ({
     PutRequest: {
       Item: {
+        ...item,
         timestamp,
-        name,
-        price,
-        unit,
       },
     },
   }));
