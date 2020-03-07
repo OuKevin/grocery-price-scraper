@@ -4,10 +4,12 @@
   "description": "scrapes grocery site for latest produce prices",
   "main": "index.js",
   "scripts": {
-    "build": "babel -d ./dist ./src",
+    "build": "babel -d ./dist ./src && npm run dependencies && npm run compress",
     "dev": "NODE_ENV=development nodemon --exec babel-node src/index.js",
-    "prebuild": "rm -rf dist/*",
+    "dependencies": "cp ./package.json ./dist/package.json && npm --only=production --prefix ./dist install ./dist",
+    "prebuild": "rm -rf dist/* && rm -rf dist.zip",
     "publish:local": "NODE_ENV=development babel-node './publish.js'",
+    "compress": "zip -r dist.zip dist",
     "start": "NODE_ENV=production node ./dist/index.js"
   },
   "repository": {
@@ -22,9 +24,7 @@
   "homepage": "https://github.com/OuKevin/grocery-price-scraper#readme",
   "dependencies": {
     "@babel/runtime": "^7.8.7",
-    "aws-sdk": "^2.633.0",
     "chrome-aws-lambda": "^2.1.1",
-    "dotenv": "^8.2.0",
     "puppeteer-core": "^2.1.1"
   },
   "devDependencies": {
@@ -33,7 +33,9 @@
     "@babel/node": "^7.8.4",
     "@babel/plugin-transform-runtime": "^7.8.3",
     "@babel/preset-env": "^7.8.6",
+    "aws-sdk": "^2.633.0",
     "babel-eslint": "^10.1.0",
+    "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.20.1",
