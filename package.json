@@ -6,7 +6,7 @@
   "scripts": {
     "build": "babel -d ./dist ./src && npm run dependencies && npm run compress",
     "dev": "NODE_ENV=development nodemon --exec babel-node src/index.js",
-    "dependencies": "cp ./package.json ./dist/package.json && npm --only=production --prefix ./dist install ./dist",
+    "dependencies": "cp ./package.json ./dist/package.json && cp ./package-lock.json ./dist/package-lock.json && npm --only=production --prefix ./dist ci ./dist",
     "prebuild": "rm -rf dist/* && rm -rf dist.zip",
     "publish:local": "NODE_ENV=development babel-node './publish.js'",
     "compress": "cd dist && zip -r ../dist.zip *",

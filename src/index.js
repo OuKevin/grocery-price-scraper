@@ -8,25 +8,33 @@ import savePrices from './savePrices';
 const { NODE_ENV } = process.env;
 if (NODE_ENV === 'development') { require('dotenv').config(); }
 
-const main = async () => {
+const main = async (event, context) => {
+  let browser = null;
+
   try {
-    const browser = await chromium.puppeteer.launch({
+    browser = await chromium.puppeteer.launch({
       args: chromium.args,
       defaultViewport: chromium.defaultViewport,
       executablePath: await chromium.executablePath,
-      headless: chromium.headless,
+      headless: true,
     });
-    const [page] = await browser.pages();
+    const page = await browser.newPage();
     config.page = page;
 
     await login();
     const itemPrices = await scrapePrices();
     await savePrices(itemPrices);
   } catch (error) {
-    console.error(error);
+    return context.fail(error);
+  } finally {
+    if (browser !== null) {
+      await browser.close();
+    }
   }
+
+  return context.succeed('Finished Scraping Prices');
 };
 
-if (NODE_ENV === 'development') { main(); }
+if (NODE_ENV === 'development') { main(null, { fail: () => {}, succeed: () => {} }); }
 
 export default main;
