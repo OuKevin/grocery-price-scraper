@@ -16,9 +16,9 @@ const main = async (event, context) => {
       args: chromium.args,
       defaultViewport: chromium.defaultViewport,
       executablePath: await chromium.executablePath,
-      headless: true,
+      headless: chromium.headless,
     });
-    const page = await browser.newPage();
+    const [page] = await browser.pages();
     config.page = page;
 
     await login();
