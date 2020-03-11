@@ -34,6 +34,6 @@ const main = async () => {
   console.log('Finished Scraping Prices');
 };
 
-if (NODE_ENV === 'development') { main(); }
+if (NODE_ENV === 'development') { main(null, { fail: () => {}, succeed: () => {} }); }
 
 export default main;
