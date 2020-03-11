@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "babel -d ./dist ./src && npm run dependencies",
-    "dependencies": "cp ./package.json ./dist/package.json && cp ./package-lock.json ./dist/packag-lock.json && npm --only=production --prefix ./dist ci ./dist",
+    "dependencies": "cp ./package.json ./dist/package.json && cp ./package-lock.json ./dist/package-lock.json && npm --only=production --prefix ./dist ci ./dist",
     "dev": "NODE_ENV=development nodemon --exec babel-node src/index.js",
     "prebuild": "rm -rf dist/*",
     "start": "NODE_ENV=production node ./dist/index.js"
