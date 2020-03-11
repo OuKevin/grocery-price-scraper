@@ -9,8 +9,10 @@ const { NODE_ENV } = process.env;
 if (NODE_ENV === 'development') { require('dotenv').config(); }
 
 const main = async () => {
+  let browser = null;
+
   try {
-    const browser = await chromium.puppeteer.launch({
+    browser = await chromium.puppeteer.launch({
       args: chromium.args,
       defaultViewport: chromium.defaultViewport,
       executablePath: await chromium.executablePath,
@@ -18,13 +20,18 @@ const main = async () => {
     });
     const [page] = await browser.pages();
     config.page = page;
-
     await login();
     const itemPrices = await scrapePrices();
     await savePrices(itemPrices);
   } catch (error) {
-    console.error(error);
+    console.log(error);
+  } finally {
+    if (browser !== null) {
+      await browser.close();
+    }
   }
+
+  console.log('Finished Scraping Prices');
 };
 
 if (NODE_ENV === 'development') { main(); }
