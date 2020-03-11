@@ -1,5 +1,5 @@
 /* eslint-disable global-require */
-import chromium from 'chrome-aws-lambda';
+import puppeteer from 'puppeteer';
 import config from './utils/config';
 import login from './login';
 import scrapePrices from './scrapePrices';
@@ -12,12 +12,8 @@ const main = async () => {
   let browser = null;
 
   try {
-    browser = await chromium.puppeteer.launch({
-      args: chromium.args,
-      defaultViewport: chromium.defaultViewport,
-      executablePath: await chromium.executablePath,
-      headless: chromium.headless,
-    });
+    browser = await puppeteer.launch({ args: ['--no-sandbox'], headless: NODE_ENV === 'production' });
+
     const [page] = await browser.pages();
     config.page = page;
     await login();

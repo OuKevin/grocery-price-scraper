@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "babel -d ./dist ./src && npm run dependencies",
-    "dependencies": "cp ./package.json ./dist/package.json && npm --only=production --prefix ./dist install ./dist",
+    "dependencies": "cp ./package.json ./dist/package.json && cp ./package-lock.json ./dist/packag-lock.json && npm --only=production --prefix ./dist ci ./dist",
     "dev": "NODE_ENV=development nodemon --exec babel-node src/index.js",
     "prebuild": "rm -rf dist/*",
     "start": "NODE_ENV=production node ./dist/index.js"
@@ -23,8 +23,7 @@
   "dependencies": {
     "aws-sdk": "^2.633.0",
     "@babel/runtime": "^7.8.7",
-    "chrome-aws-lambda": "^2.1.1",
-    "puppeteer-core": "^2.1.1"
+    "puppeteer": "^2.1.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
@@ -37,7 +36,6 @@
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.20.1",
-    "nodemon": "^2.0.2",
-    "puppeteer": "^2.1.1"
+    "nodemon": "^2.0.2"
   }
 }
