@@ -14,10 +14,8 @@ export default async () => {
     await page.waitForSelector(ITEM_PRICE_SELECTOR);
     // TODO: handle page not found
     const priceText = await page.$eval(ITEM_PRICE_SELECTOR, (a) => a.innerText);
-    console.log({ priceText });
     const textWithoutSpaces = priceText.replace(/\s/g, '');
     const priceWithUnit = textWithoutSpaces.split('$')[1];
-    console.log({ priceWithUnit });
 
     if (!priceText.includes('/')) {
       console.error(`Unable to parse this product: ${id}`);
