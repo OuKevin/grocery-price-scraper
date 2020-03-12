@@ -2,13 +2,13 @@
 /* eslint-disable no-restricted-syntax */
 
 import config from './utils/config';
-import { ITEMS_TO_SCRAPE, ITEM_PRICE_SELECTOR } from './utils/constants';
+import { ITEM_PRICE_SELECTOR } from './utils/constants';
 import { generateItemPageEndpoint } from './utils/endpoints';
 
-export default async () => {
-  const items = [];
+export default async (items) => {
+  const itemsWithPrices = [];
 
-  for (const { id, name } of ITEMS_TO_SCRAPE) {
+  for (const { id, name } of items) {
     const { page } = config;
     await page.goto(generateItemPageEndpoint(id));
     await page.waitForSelector(ITEM_PRICE_SELECTOR);
@@ -21,11 +21,11 @@ export default async () => {
       console.error(`Unable to parse this product: ${id}`);
     } else {
       const [price, unit] = priceWithUnit.split('/');
-      items.push({
+      itemsWithPrices.push({
         id, name, price, unit,
       });
     }
   }
 
-  return items;
+  return itemsWithPrices;
 };

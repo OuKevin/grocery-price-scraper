@@ -1,9 +1,6 @@
-import AWS from 'aws-sdk';
+import documentClient from './utils/documentClient';
 
 export default async (items) => {
-  console.log(items);
-  AWS.config.update({ region: 'us-east-2' });
-  const documentClient = new AWS.DynamoDB.DocumentClient();
   const timestamp = String(new Date().toISOString());
   const formattedItems = items.map((item) => ({
     PutRequest: {
