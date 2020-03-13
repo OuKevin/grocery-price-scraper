@@ -6,11 +6,13 @@ import login from './login';
 import savePrices from './savePrices';
 import scrapePrices from './scrapePrices';
 
-const { NODE_ENV } = process.env;
-if (NODE_ENV === 'development') { require('dotenv').config(); }
+const { IS_CRON, NODE_ENV } = process.env;
+const isDevelopment = NODE_ENV === 'development';
+if (isDevelopment) { require('dotenv').config(); }
 
 const main = async () => {
   let browser = null;
+  console.log('is cron value', IS_CRON);
 
   try {
     const { Items } = await fetchItems();
@@ -33,6 +35,6 @@ const main = async () => {
   console.log('Finished Scraping Prices');
 };
 
-main();
+if (isDevelopment || IS_CRON) { main(); }
 
 export default main;
