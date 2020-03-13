@@ -1,9 +1,11 @@
+/* eslint-disable no-continue */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
 
 import config from './utils/config';
-import { ITEM_PRICE_SELECTOR } from './utils/constants';
+import { ITEM_NOT_FOUND_SELECTOR, ITEM_PRICE_SELECTOR } from './utils/constants';
 import { generateItemPageEndpoint } from './utils/endpoints';
+import raceSelectors from './utils/raceSelectors';
 
 export default async (items) => {
   const itemsWithPrices = [];
@@ -11,7 +13,13 @@ export default async (items) => {
   for (const { id, name } of items) {
     const { page } = config;
     await page.goto(generateItemPageEndpoint(id));
-    await page.waitForSelector(ITEM_PRICE_SELECTOR);
+
+    const selector = await raceSelectors([ITEM_PRICE_SELECTOR, ITEM_NOT_FOUND_SELECTOR]);
+
+    if (selector === ITEM_NOT_FOUND_SELECTOR) {
+      continue;
+    }
+
     // TODO: handle page not found
     const priceText = await page.$eval(ITEM_PRICE_SELECTOR, (a) => a.innerText);
     const textWithoutSpaces = priceText.replace(/\s/g, '');
