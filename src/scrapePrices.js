@@ -20,7 +20,6 @@ export default async (items) => {
       continue;
     }
 
-    // TODO: handle page not found
     const priceText = await page.$eval(ITEM_PRICE_SELECTOR, (a) => a.innerText);
     const textWithoutSpaces = priceText.replace(/\s/g, '');
     const priceWithUnit = textWithoutSpaces.split('$')[1];
